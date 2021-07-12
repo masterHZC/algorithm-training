@@ -1,0 +1,25 @@
+// 前序
+preorder(self, root)
+
+if root
+  self.traverse_path.append(root.val)
+  self.preorder(root.left)
+  self.preorder(root.right)
+
+// 中序
+
+inorder(self, root)
+
+if root
+  self.inorder(root.left)
+  self.traversal_path(root.val)
+  self.inroder(root.right)
+
+// 后序
+
+postorder(self, root)
+
+if root
+  self.postorder(root.left)
+  self.postorder(root.right)
+  self.postorder(root.val)

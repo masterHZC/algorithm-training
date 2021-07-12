@@ -1,20 +1,20 @@
 // 二叉树中序遍历
-// var inorderTraversal = function(root) {
-//   let result = []
-//   helper(root, result)
-//   return result
-// };
-// function helper (root, result) {
-//   if (root !== null) {
-//     if (root.left !== null) {
-//       helper(root.left, result)
-//     }
-//     result.push(root.val)
-//     if (root.right !== null) {
-//       helper(root.right, result)
-//     }
-//   }
-// }
+var inorderTraversal = function(root) {
+  let result = []
+  helper(root, result)
+  return result
+};
+function helper (root, result) {
+  if (root !== null) {
+    if (root.left !== null) {
+      helper(root.left, result)
+    }
+    result.push(root.val)
+    if (root.right !== null) {
+      helper(root.right, result)
+    }
+  }
+}
 // def inorder (self, root)
 // if root:
 //  inorder(self.left)
@@ -26,24 +26,24 @@
 // 这个是基于对于递归顺序的理解
 // 中序遍历 左 - 中 - 右
 // 先遍历到最左边的树 然后 从左边的树像上走 
-// var inorderTraversal = function(root) {
-//   let res = []
-//   let stack = []
-//   let curr = root
-//   while (curr !== null || stack.length !== 0) {
-//     while(curr !== null) {
-//       stack.push(curr)
-//       curr = curr.left
-//     }
-//     curr = stack.pop()
-//     res.push(curr.val)
-//     curr = curr.right
-//   }
-//   return res
-// }
+var inorderTraversal = function(root) {
+  let res = []
+  let stack = []
+  let curr = root
+  while (curr !== null || stack.length !== 0) {
+    while(curr !== null) {
+      stack.push(curr)
+      curr = curr.left
+    }
+    curr = stack.pop()
+    res.push(curr.val)
+    curr = curr.right
+  }
+  return res
+}
 // 莫里斯遍历 
 // 线索二叉树
-// 1. 将当前节点current初始化文根节点
+// 1. 将当前节点current初始化为根节点
 // 2. while current 不能为空
 // def current
 //  if current.left == null
