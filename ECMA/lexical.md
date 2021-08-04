@@ -94,3 +94,78 @@ JavaScript不是完全的上下文无关语法，因此定义一系列 [goal sym
 其余所有复杂的 `additional tokens` 都是由 `CommonToken` 所组成的。最后 `token` 可以被解释为**无法被拆分的词法单元**
 
 ## Names and Keywords
+JavaScript的名称和关键字都分别被包含在了标识符和保留字中。标识符名称 `IdentifierName` 用于定义JavaScript中的所有常量、变量、类、属性、函数、标签的命名。保留字 `ReservedWord` 是标识符名称的一个子集，同时保留字是不能用于命名使用的。
+
+>另外，在标准中特别提到了几个Unicode的码点作为名称命名的补充字符：\u0024($),\u005f(_)。可以出现在标识符名称的任意位置。而\u200C(ZWNJ)和\u200D(ZWJ)可以出现在标识符名称的首位以外的任意位置
+
+Unicode 的转义序列也允许用于标识符名称，例如：
+```js
+  var a\u{200D}b = 1
+  a\u{200D}b // 1
+  // 或者使用传统的写法也可以
+  var b\u200Da = 2
+  b\u200Da // 2
+```
+但是需要注意的是：
+1. 转义序列之前必须有 `\` 不然会报错
+2. 转义序列和源字符可以等效替换
+```js
+// \u0024 === $ true
+var a\u0024b = 123
+a$b // 123
+```
+3. 在有转义序列符的命名中名称的位数和将对应的转义序列符替换成的源字符的位数相同
+```js
+var obj = {}
+obj.a\u0024b = 1234
+Object.keys(obj).forEach(item => console.log(item.length)) // 3
+```
+
+然后从标准中展出一些关于标识符名称的代码：
+```
+  IdentifierName::
+      IdentifierStart
+      IdentifierName IdentifierPart
+  
+  IdentifierStart::
+      UnicodeIDStart
+      $
+      _
+      \ UnicodeEscapeSequence
+
+  IdetifierPart::
+      UnicodeIDContinue
+      $
+      \UnicodeEscapeSequence
+      <ZWNJ>
+      <ZWJ>
+
+  UnicodeIDStart::
+      any Unicode code point with the Unicode property "ID_Start"
+
+  UnicodeIDContinue::
+      any Unicode code point with the Unicode property "ID_Start"
+```
+这是标准的标识符名称的规则，然后还有一个最近自由属性命名的 `PrivateIdentifier`。
+
+```
+  PrivateIdentifier::
+      # IdentifierName
+```
+
+```js
+  class C {
+    #name = 'this is name'
+    getName() {
+      return this.#name
+    }
+  }
+
+  var c = new C()
+  c.name // undefined
+  c.name = 1
+  c.name // 1
+  c.getName() // this is name
+```
+
+以上代码展示了私有名称的使用方法，至于私有名称的定义为什么不使用 `private` 关键字或者在很多开源库大规模使用的 `_` 在这里不去讨论。
